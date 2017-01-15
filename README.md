@@ -1,4 +1,4 @@
-# ansible-muc-glpi
+# ansible-role-glpi
 Ansible role to install glpi (http://glpi-project.org/)
 
 ## TODO
