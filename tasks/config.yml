@@ -1,0 +1,10 @@
+---
+- name: copy configurations templates
+  template:
+    src:  "{{ item }}"
+    dest: "{{ glpi_home_dir }}/config/{{ item | basename | regex_replace('.j2','.php') }}"
+    owner: http
+    group: http
+    mode: 0640
+  with_fileglob:
+    - "../templates/*.*"

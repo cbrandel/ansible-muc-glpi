@@ -1,0 +1,32 @@
+---
+- name: Ensures directories exist
+  file: path={{item}} state=directory
+  with_items:
+    - "{{ glpi_files_root }}"
+
+- name: Check if path exists
+  stat:
+      path: "{{ glpi_install_dir }}"
+  register: check_path
+
+# install glpi version if it does not exist
+- include: install.yml
+  when: check_path.stat.exists == false
+
+# copy the configurations
+- include: config.yml
+
+# cleanup some files
+- include: cleanup.yml
+
+# make sure the symling glpi exists and points to the installed version
+- name: Ensure link exists
+  file:
+    path: "{{ item }}"
+    state: link
+    src: "{{ glpi_install_dir }}"
+  with_items:
+    - "{{ glpi_home_dir }}"
+
+# Set file permissions
+- include: perms.yml

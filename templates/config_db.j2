@@ -1,0 +1,9 @@
+<?php
+ // {{ ansible_managed }}
+ class DB extends DBmysql {
+   var $dbhost = '{{ glpi_mysql_db_host }}';
+   var $dbuser 	= '{{ glpi_mysql_db_user }}';
+   var $dbpassword= '{{ glpi_mysql_db_pwd }}';
+   var $dbdefault	= '{{ glpi_mysql_db_db }}';
+ }
+?>

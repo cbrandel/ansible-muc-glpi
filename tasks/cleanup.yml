@@ -1,0 +1,11 @@
+---
+- name: remove install.php file
+  file:
+    path: "{{ glpi_install_dir }}/install/install.php"
+    state:  absent
+
+- name: remove files directory, if it was moved
+  file:
+    path: "{{ glpi_install_dir }}/files"
+    state: absent
+  when: "{{ glpi_install_dir ~ '/files' != glpi_files_root ~ '/files' }}"

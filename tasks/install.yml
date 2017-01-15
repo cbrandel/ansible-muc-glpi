@@ -1,0 +1,20 @@
+---
+- name: download glpi archive
+  get_url:
+    url: "{{glpi_dl_url}}"
+    dest: "{{glpi_dl_tmp}}/{{glpi_dl_file}}"
+
+- name: extract archive
+  command:  tar --transform="s#^glpi#glpi-{{glpi_version}}#g" --show-stored-names -xvzf {{glpi_dl_tmp}}/{{glpi_dl_file}}
+  args:
+    chdir: "{{glpi_base_dir}}"
+    creates: "{{glpi_install_dir}}"
+
+# cannot use unarchive for strange "cannot handle archive bug"
+#  unarchive:
+#    remote_src: yes
+#    src: "{{glpi_dl_tmp}}/{{glpi_dl_file}}"
+#    dest: "{{glpi_base_dir}}"
+#    extra_opts: ['--transform="s#^glpi#glpi-{{glpi_version}}#g"', '--show-stored-names']
+#    owner:  root
+#    group:  http

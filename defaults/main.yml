@@ -1,0 +1,15 @@
+---
+glpi_version: 9.1.1
+glpi_dl_base: "https://github.com/glpi-project/glpi/releases/download"
+glpi_dl_file: "glpi-{{glpi_version}}.tgz"
+glpi_dl_url: "{{glpi_dl_base}}/{{glpi_version}}/{{glpi_dl_file}}"
+glpi_dl_tmp: "/tmp"
+glpi_install_dir: "/var/www/glpi-{{glpi_version}}"
+glpi_home_dir: "/var/www/glpi"
+glpi_base_dir: "{{ glpi_home_dir | dirname }}"
+glpi_files_root: "/srv/webdata/glpi"
+
+glpi_mysql_db_host: "localhost"
+glpi_mysql_db_user: ""
+glpi_mysql_db_pwd: ""
+glpi_mysql_db_db: ""
