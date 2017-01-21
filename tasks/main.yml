@@ -1,29 +1,29 @@
 ---
-- name: [GLPI] Ensures directories exist
+- name: "[GLPI] Ensures directories exist"
   file: path={{item}} state=directory
   with_items:
     - "{{ glpi_files_root }}"
 
-- name: [GLPI] Check if path exists
+- name: "[GLPI] Check if path exists"
   stat:
       path: "{{ glpi_install_dir }}"
   register: check_path
 
 # install glpi version if it does not exist
-- name: [GLPI] Install GLPI
+- name: "[GLPI] Install GLPI"
   include: install.yml
 when: check_path.stat.exists == false
 
 # copy the configurations
-- name: [GLPI] Copy Configurations
+- name: "[GLPI] Copy Configurations"
   include: config.yml
 
 # cleanup some files
-- name: [GLPI] Cleanup
+- name: "[GLPI] Cleanup"
   include: cleanup.yml
 
 # make sure the symling glpi exists and points to the installed version
-- name: [GLPI] Ensure link exists
+- name: "[GLPI] Ensure link exists"
   file:
     path: "{{ item }}"
     state: link
@@ -32,7 +32,7 @@ when: check_path.stat.exists == false
     - "{{ glpi_home_dir }}"
 
 # install plugins
-- name: [GLPI] install plugins
+- name: "[GLPI] install plugins"
   include: plugin.yml
     vars:
       name: {{item.key}}
@@ -42,5 +42,5 @@ when: check_path.stat.exists == false
   with_dict: {{glpi_plugins}}
 
 # Set file permissions
-- name: [GLPI] Permissions
+- name: "[GLPI] Permissions"
   include: perms.yml

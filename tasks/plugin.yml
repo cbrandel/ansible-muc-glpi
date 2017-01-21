@@ -1,17 +1,17 @@
 ---
-- name: [GLPI] Download Plugin
+- name: "[GLPI] Download Plugin"
   get_url:
     url: "{{dl_url}}"
     dest: "{{glpi_dl_tmp}}/{{dl_file}}"
 
-- name: [GLPI] extract plugin archive
+- name: "[GLPI] extract plugin archive"
   command:  tar -xvzf {{glpi_dl_tmp}}/{{dl_file}}
   args:
     chdir: "{{glpi_base_dir}}/plugins"
     creates: "{{glpi_install_dir}}/plugins/{{name}}/version_{{version}}"
   register: plugin_changed
 
-- name: [GLPI] update version file
+- name: "[GLPI] update version file"
   file:
     path: "{{glpi_install_dir}}/plugins/{{name}}/version_{{version}}"
     state:  present
