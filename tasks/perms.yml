@@ -1,32 +1,32 @@
 ---
-- name: Root directory permissions
+- name: [GLPI] Root directory permissions
   file:
     path: "{{ glpi_install_dir }}"
     owner:  root
     group:  http
     mode: 0750
 
-- name: Ownership
+- name: [GLPI] Ownership
   shell: find {{ glpi_install_dir }}/ -mindepth 1 ! -iname ".htaccess" -exec chown -c http:http {} \;
   register: chmod_status
   changed_when: chmod_status.stdout != ""
 
-- name: File permissions
+- name: [GLPI] File permissions
   shell: find {{ glpi_install_dir }}/ -type f ! -iname ".htaccess" -exec chmod -c 0640 {} \;
   register: chmod_status
   changed_when: chmod_status.stdout != ""
 
-- name: Dir permissions
+- name: [GLPI] Dir permissions
   shell: find {{ glpi_install_dir }}/ -type d -mindepth 1 -exec chmod -c 0750 {} \;
   register: chmod_status
   changed_when: chmod_status.stdout != ""
 
-- name: htaccess owner
+- name: [GLPI] htaccess owner
   shell: find {{ glpi_install_dir }}/ -name ".htaccess" -exec chown -c root:http {} \;
   register: chmod_status
   changed_when: chmod_status.stdout != ""
 
-- name: htaccess permissions
+- name: [GLPI] htaccess permissions
   shell: find {{ glpi_install_dir }}/ -name ".htaccess" -exec chmod -c 600 {} \;
   register: chmod_status
   changed_when: chmod_status.stdout != ""

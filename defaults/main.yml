@@ -13,3 +13,12 @@ glpi_mysql_db_host: "localhost"
 glpi_mysql_db_user: ""
 glpi_mysql_db_pwd: ""
 glpi_mysql_db_db: ""
+
+# define plugin structure
+# gpli_plugins:
+#   <plugin_name>:
+#     url:  <plugin URL>
+#     file: <plugin file>
+#     version:  <plugin version>
+
+glpi_plugins:

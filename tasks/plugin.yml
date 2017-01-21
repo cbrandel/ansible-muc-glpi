@@ -1,0 +1,27 @@
+---
+- name: [GLPI] Download Plugin
+  get_url:
+    url: "{{dl_url}}"
+    dest: "{{glpi_dl_tmp}}/{{dl_file}}"
+
+- name: [GLPI] extract plugin archive
+  command:  tar -xvzf {{glpi_dl_tmp}}/{{dl_file}}
+  args:
+    chdir: "{{glpi_base_dir}}/plugins"
+    creates: "{{glpi_install_dir}}/plugins/{{name}}/version_{{version}}"
+  register: plugin_changed
+
+- name: [GLPI] update version file
+  file:
+    path: "{{glpi_install_dir}}/plugins/{{name}}/version_{{version}}"
+    state:  present
+  when: plugin_changed
+
+# cannot use unarchive for strange "cannot handle archive bug"
+#  unarchive:
+#    remote_src: yes
+#    src: "{{glpi_dl_tmp}}/{{glpi_dl_file}}"
+#    dest: "{{glpi_base_dir}}"
+#    extra_opts: ['--transform="s#^glpi#glpi-{{glpi_version}}#g"', '--show-stored-names']
+#    owner:  root
+#    group:  http

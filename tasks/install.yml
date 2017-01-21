@@ -1,10 +1,10 @@
 ---
-- name: download glpi archive
+- name: [GLPI] download glpi archive
   get_url:
     url: "{{glpi_dl_url}}"
     dest: "{{glpi_dl_tmp}}/{{glpi_dl_file}}"
 
-- name: extract archive
+- name: [GLPI] extract archive
   command:  tar --transform="s#^glpi#glpi-{{glpi_version}}#g" --show-stored-names -xvzf {{glpi_dl_tmp}}/{{glpi_dl_file}}
   args:
     chdir: "{{glpi_base_dir}}"
