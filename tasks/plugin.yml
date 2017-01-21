@@ -1,15 +1,14 @@
 ---
 - name: "[GLPI] Check if Plugin {{plugin_name}} needs update"
-  file:
+  stat:
     path: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
-    state:  file
-  register: needs_update
+  register: plugin_exists
 
 - name: "[GLPI] Download Plugin {{plugin_name}}"
   get_url:
     url: "{{plugin_url}}"
     dest: "{{glpi_dl_tmp}}/{{plugin_file}}"
-  when: needs_update.changed
+  when: plugin_exists.stat.exists == False
 
 - name: "[GLPI] extract plugin archive {{plugin_file}}"
   command:  tar -xvzf {{glpi_dl_tmp}}/{{plugin_file}}
@@ -17,19 +16,10 @@
     chdir: "{{glpi_install_dir}}/plugins"
     creates: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
   register: plugin_changed
-  when: needs_update.changed
+  when: plugin_exists.stat.exists == False
 
 - name: "[GLPI] update version file"
   file:
     path: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
     state:  touch
   when: plugin_changed.changed
-
-# cannot use unarchive for strange "cannot handle archive bug"
-#  unarchive:
-#    remote_src: yes
-#    src: "{{glpi_dl_tmp}}/{{glpi_dl_file}}"
-#    dest: "{{glpi_base_dir}}"
-#    extra_opts: ['--transform="s#^glpi#glpi-{{glpi_version}}#g"', '--show-stored-names']
-#    owner:  root
-#    group:  http

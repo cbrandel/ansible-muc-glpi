@@ -37,7 +37,7 @@
   vars:
     plugin_name: "{{item.key}}"
     plugin_url: "{{item.value.url}}"
-    plugin_file:  "{{item.value.file}}"
+    plugin_file:  "{{item.value.url | basename }}"
     plugin_version: "{{item.value.version}}"
   with_dict: "{{glpi_plugins}}"
 
