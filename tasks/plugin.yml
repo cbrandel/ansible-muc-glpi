@@ -16,7 +16,15 @@
     chdir: "{{glpi_install_dir}}/plugins"
     creates: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
   register: plugin_changed
-  when: plugin_exists.stat.exists == False
+  when: (plugin_exists.stat.exists == False and plugin_rename == "")
+
+- name: "[GLPI] extract plugin archive {{plugin_file}} to {{plugin_name}}"
+  command:  tar --transform="s#^{{plugin_rename}}#{{plugin_name}}#g" --show-stored-names -xvzf {{glpi_dl_tmp}}/{{plugin_file}}
+  args:
+    chdir: "{{glpi_install_dir}}/plugins"
+    creates: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
+  register: plugin_changed
+  when: (plugin_exists.stat.exists == False and plugin_rename != "")
 
 - name: "[GLPI] update version file"
   file:

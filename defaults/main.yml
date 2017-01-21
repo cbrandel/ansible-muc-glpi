@@ -18,7 +18,7 @@ glpi_mysql_db_db: ""
 # gpli_plugins:
 #   <plugin_name>:
 #     url:  <plugin URL>
-#     file: <plugin file>
 #     version:  <plugin version>
+#     (rename: <name in archive>) optional
 
 glpi_plugins:

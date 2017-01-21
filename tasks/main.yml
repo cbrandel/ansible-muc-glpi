@@ -39,6 +39,7 @@
     plugin_url: "{{item.value.url}}"
     plugin_file:  "{{item.value.url | basename }}"
     plugin_version: "{{item.value.version}}"
+    plugin_rename:  "{{item.value.rename | default('')}}"
   with_dict: "{{glpi_plugins}}"
 
 # Set file permissions
