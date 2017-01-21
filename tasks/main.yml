@@ -12,7 +12,7 @@
 # install glpi version if it does not exist
 - name: "[GLPI] Install GLPI"
   include: install.yml
-when: check_path.stat.exists == false
+  when: check_path.stat.exists == false
 
 # copy the configurations
 - name: "[GLPI] Copy Configurations"
@@ -34,12 +34,12 @@ when: check_path.stat.exists == false
 # install plugins
 - name: "[GLPI] install plugins"
   include: plugin.yml
-    vars:
-      name: {{item.key}}
-      dl_url: {{item.value.url}}
-      dl_file:  {{item.value.file}}
-      version: {{item.value.version}}
-  with_dict: {{glpi_plugins}}
+  vars:
+    plugin_name: "{{item.key}}"
+    plugin_url: "{{item.value.url}}"
+    plugin_file:  "{{item.value.file}}"
+    plugin_version: "{{item.value.version}}"
+  with_dict: "{{glpi_plugins}}"
 
 # Set file permissions
 - name: "[GLPI] Permissions"

@@ -1,21 +1,29 @@
 ---
-- name: "[GLPI] Download Plugin"
-  get_url:
-    url: "{{dl_url}}"
-    dest: "{{glpi_dl_tmp}}/{{dl_file}}"
+- name: "[GLPI] Check if Plugin {{plugin_name}} needs update"
+  file:
+    path: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
+    state:  file
+  register: needs_update
 
-- name: "[GLPI] extract plugin archive"
-  command:  tar -xvzf {{glpi_dl_tmp}}/{{dl_file}}
+- name: "[GLPI] Download Plugin {{plugin_name}}"
+  get_url:
+    url: "{{plugin_url}}"
+    dest: "{{glpi_dl_tmp}}/{{plugin_file}}"
+  when: needs_update.changed
+
+- name: "[GLPI] extract plugin archive {{plugin_file}}"
+  command:  tar -xvzf {{glpi_dl_tmp}}/{{plugin_file}}
   args:
-    chdir: "{{glpi_base_dir}}/plugins"
-    creates: "{{glpi_install_dir}}/plugins/{{name}}/version_{{version}}"
+    chdir: "{{glpi_install_dir}}/plugins"
+    creates: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
   register: plugin_changed
+  when: needs_update.changed
 
 - name: "[GLPI] update version file"
   file:
-    path: "{{glpi_install_dir}}/plugins/{{name}}/version_{{version}}"
-    state:  present
-  when: plugin_changed
+    path: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
+    state:  touch
+  when: plugin_changed.changed
 
 # cannot use unarchive for strange "cannot handle archive bug"
 #  unarchive:

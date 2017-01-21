@@ -1,5 +1,5 @@
 ---
-- name: [GLPI] copy configurations templates
+- name: "[GLPI] copy configurations templates"
   template:
     src:  "{{ item }}"
     dest: "{{ glpi_home_dir }}/config/{{ item | basename | regex_replace('.j2','.php') }}"
