@@ -5,7 +5,7 @@
     dest: "{{glpi_dl_tmp}}/{{glpi_dl_file}}"
 
 - name: "[GLPI] extract archive"
-  command:  tar --transform="s#^glpi#glpi-{{glpi_version}}#g" --show-stored-names -xvzf {{glpi_dl_tmp}}/{{glpi_dl_file}}
+  command:  tar --transform="s#^glpi#glpi-{{glpi_version}}#g" --show-stored-names -xvjf {{glpi_dl_tmp}}/{{glpi_dl_file}}
   args:
     chdir: "{{glpi_base_dir}}"
     creates: "{{glpi_install_dir}}"
