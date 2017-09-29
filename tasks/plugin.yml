@@ -4,6 +4,14 @@
     path: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
   register: plugin_exists
 
+- set_fact:
+    tar_params: "-xvzf"
+  when: plugin_file | match("gz$")
+
+- set_fact:
+    tar_params: "-xvjf"
+  when: plugin_file | match("bz$")
+
 - block:
     - name: "[GLPI] Download Plugin {{plugin_name}}"
       get_url:
@@ -11,7 +19,7 @@
         dest: "{{glpi_dl_tmp}}/{{plugin_file}}"
 
     - name: "[GLPI] extract plugin archive {{plugin_file}}"
-      command:  tar -xvzf {{glpi_dl_tmp}}/{{plugin_file}}
+      command:  tar {{tar_params}} {{glpi_dl_tmp}}/{{plugin_file}}
       args:
         chdir: "{{glpi_install_dir}}/plugins"
         creates: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
@@ -19,7 +27,7 @@
       register: plugin_changed
 
     - name: "[GLPI] extract plugin archive {{plugin_file}} to {{plugin_name}}"
-      command:  tar --transform="s#^{{plugin_rename}}#{{plugin_name}}#g" --show-stored-names -xvzf {{glpi_dl_tmp}}/{{plugin_file}}
+      command:  tar --transform="s#^{{plugin_rename}}#{{plugin_name}}#g" --show-stored-names {{tar_params}} {{glpi_dl_tmp}}/{{plugin_file}}
       args:
         chdir: "{{glpi_install_dir}}/plugins"
         creates: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
