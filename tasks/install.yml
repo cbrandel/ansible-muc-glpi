@@ -9,14 +9,14 @@
   args:
     chdir: "{{glpi_base_dir}}"
     creates: "{{glpi_install_dir}}"
-  when: glpi_dl_file | match("gz$")
+  when: glpi_dl_file | match(".*gz$")
 
 - name: "[GLPI] extract tar.gz archive"
   command:  tar --transform="s#^glpi#glpi-{{glpi_version}}#g" --show-stored-names -xvjf {{glpi_dl_tmp}}/{{glpi_dl_file}}
   args:
     chdir: "{{glpi_base_dir}}"
     creates: "{{glpi_install_dir}}"
-  when: glpi_dl_file | match("bz$")
+  when: glpi_dl_file | match(".*bz2$")
 
 # cannot use unarchive for strange "cannot handle archive bug"
 #  unarchive:

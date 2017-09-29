@@ -4,14 +4,6 @@
     path: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
   register: plugin_exists
 
-- set_fact:
-    tar_params: "-xvzf"
-  when: plugin_file | match("gz$")
-
-- set_fact:
-    tar_params: "-xvjf"
-  when: plugin_file | match("bz$")
-
 - block:
     - name: "[GLPI] Download Plugin {{plugin_name}}"
       get_url:

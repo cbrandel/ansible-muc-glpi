@@ -40,6 +40,7 @@
     plugin_file:  "{{item.value.url | basename }}"
     plugin_version: "{{item.value.version}}"
     plugin_rename:  "{{item.value.rename | default('')}}"
+    tar_params: "{{item.value.url | match('.*bz2$') | ternary('-xvjf','-xvzf')}}"
   with_dict: "{{glpi_plugins}}"
 
 # Set file permissions
