@@ -43,6 +43,16 @@
     tar_params: "{{item.value.url | match('.*bz2$') | ternary('-xvjf','-xvzf')}}"
   with_dict: "{{glpi_plugins}}"
 
+- name: "[GLPI] create /files/ directories"
+  file:
+    path: "{{ glpi_files_root }}/files/{{item}}"
+    state: directory
+    owner: http
+    group: http
+    mode: 0750
+  with_items:
+    - "{{glpi_dirs}}"
+
 # Set file permissions
 - name: "[GLPI] Permissions"
   include: perms.yml

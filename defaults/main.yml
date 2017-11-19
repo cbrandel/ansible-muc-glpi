@@ -14,6 +14,19 @@ glpi_mysql_db_user: ""
 glpi_mysql_db_pwd: ""
 glpi_mysql_db_db: ""
 
+glpi_dirs:
+  - _dumps
+  - _cron
+  - _sessions
+  - _plugins
+  - _lock
+  - _log
+  - _graphs
+  - _pictures
+  - _tmp
+  - _cache
+  - _rss
+  - _uploads
 # define plugin structure
 # gpli_plugins:
 #   <plugin_name>:
