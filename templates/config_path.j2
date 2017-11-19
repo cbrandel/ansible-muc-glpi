@@ -1,6 +1,7 @@
 <?php
 // {{ ansible_managed }}
 // extra config file to move files folder out of webroot
+// variables are needed in inc/based_config.php
 define("MY_GLPI_FILES_ROOT","{{ glpi_files_root }}");
 define("GLPI_DOC_DIR",MY_GLPI_FILES_ROOT . "/files");
 define("GLPI_DUMP_DIR",MY_GLPI_FILES_ROOT . "/files/_dumps");
@@ -12,6 +13,7 @@ define("GLPI_LOG_DIR",MY_GLPI_FILES_ROOT . "/files/_log");
 define("GLPI_GRAPH_DIR",MY_GLPI_FILES_ROOT . "/files/_graphs");
 define("GLPI_PICTURE_DIR",MY_GLPI_FILES_ROOT . "/files/_pictures");
 define("GLPI_TMP_DIR",MY_GLPI_FILES_ROOT . "/files/_tmp");
+define("GLPI_CACHE_DIR",MY_GLPI_FILES_ROOT . "/files/_cache");
 define("GLPI_RSS_DIR",MY_GLPI_FILES_ROOT . "/files/_rss");
 define("GLPI_UPLOAD_DIR",MY_GLPI_FILES_ROOT . "/files/_uploads");
 ?>
