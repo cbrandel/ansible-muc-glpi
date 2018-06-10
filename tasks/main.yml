@@ -11,18 +11,18 @@
 
 # install glpi version if it does not exist
 - name: "[GLPI] Install GLPI"
-  include: install.yml
+  import_tasks: install.yml
   when: check_path.stat.exists == false
 
 # copy the configurations
 - name: "[GLPI] Copy Configurations"
-  include: config.yml
+  import_tasks: config.yml
 
 # cleanup some files
 - name: "[GLPI] Cleanup"
-  include: cleanup.yml
+  import_tasks: cleanup.yml
 
-# make sure the symling glpi exists and points to the installed version
+# make sure the symlink glpi exists and points to the installed version
 - name: "[GLPI] Ensure link exists"
   file:
     path: "{{ item }}"
@@ -33,7 +33,7 @@
 
 # install plugins
 - name: "[GLPI] install plugins"
-  include: plugin.yml
+  include_tasks: plugin.yml
   vars:
     plugin_name: "{{item.key}}"
     plugin_url: "{{item.value.url}}"
@@ -55,4 +55,4 @@
 
 # Set file permissions
 - name: "[GLPI] Permissions"
-  include: perms.yml
+  import_tasks: perms.yml
