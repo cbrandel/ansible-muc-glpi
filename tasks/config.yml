@@ -7,4 +7,4 @@
     group: http
     mode: 0640
   with_fileglob:
-    - "../templates/*.*"
+    - "../templates/*.j2"
