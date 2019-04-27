@@ -1,10 +1,10 @@
 ---
-- name: "[GLPI] remove install.php file"
+- name: "cleanup | remove install.php file"
   file:
     path: "{{ glpi_install_dir }}/install/install.php"
     state:  absent
 
-- name: "[GLPI] remove files directory, if it was moved"
+- name: "cleanup | remove files directory, if it was moved"
   file:
     path: "{{ glpi_install_dir }}/files"
     state: absent

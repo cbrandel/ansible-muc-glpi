@@ -1,22 +1,22 @@
 ---
-- name: "[GLPI] download glpi archive"
+- name: "install | download glpi archive"
   get_url:
     url: "{{glpi_dl_url}}"
     dest: "{{glpi_dl_tmp}}/{{glpi_dl_file}}"
 
-- name: "[GLPI] extract tar.gz archive"
+- name: "install | extract tar.gz archive"
   command:  tar --transform="s#^glpi#glpi-{{glpi_version}}#g" --show-stored-names -xvzf {{glpi_dl_tmp}}/{{glpi_dl_file}}
   args:
     chdir: "{{glpi_base_dir}}"
     creates: "{{glpi_install_dir}}"
-  when: glpi_dl_file | match(".*gz$")
+  when: glpi_dl_file is match(".*gz$")
 
-- name: "[GLPI] extract tar.gz archive"
+- name: "install | extract tar.gz archive"
   command:  tar --transform="s#^glpi#glpi-{{glpi_version}}#g" --show-stored-names -xvjf {{glpi_dl_tmp}}/{{glpi_dl_file}}
   args:
     chdir: "{{glpi_base_dir}}"
     creates: "{{glpi_install_dir}}"
-  when: glpi_dl_file | match(".*bz2$")
+  when: glpi_dl_file is match(".*bz2$")
 
 # cannot use unarchive for strange "cannot handle archive bug"
 #  unarchive:

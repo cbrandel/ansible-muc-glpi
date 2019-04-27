@@ -1,32 +1,32 @@
 ---
-- name: "[GLPI] Check if Plugin {{plugin_name}} needs update"
+- name: "plugin | Check if Plugin {{plugin_name}} needs update"
   stat:
     path: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
   register: plugin_exists
 
 - block:
-    - name: "[GLPI] Download Plugin {{plugin_name}}"
+    - name: "plugin | Download Plugin {{plugin_name}}"
       get_url:
         url: "{{plugin_url}}"
         dest: "{{glpi_dl_tmp}}/{{plugin_file}}"
 
-    - name: "[GLPI] extract plugin archive {{plugin_file}}"
+    - name: "plugin | extract plugin archive {{plugin_file}}"
       command:  tar {{tar_params}} {{glpi_dl_tmp}}/{{plugin_file}}
       args:
         chdir: "{{glpi_install_dir}}/plugins"
         creates: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
-      when: plugin_rename == ""
+      when: (plugin_rename | length | int) == 0
       register: plugin_changed
 
-    - name: "[GLPI] extract plugin archive {{plugin_file}} to {{plugin_name}}"
+    - name: "plugin | extract plugin archive {{plugin_file}} to {{plugin_name}}"
       command:  tar --transform="s#^{{plugin_rename}}#{{plugin_name}}#g" --show-stored-names {{tar_params}} {{glpi_dl_tmp}}/{{plugin_file}}
       args:
         chdir: "{{glpi_install_dir}}/plugins"
         creates: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
-      when: plugin_rename != ""
+      when: (plugin_rename | length | int) > 0
       register: plugin_changed
 
-    - name: "[GLPI] update version file"
+    - name: "plugin | update version file"
       file:
         path: "{{glpi_install_dir}}/plugins/{{plugin_name}}/version_{{plugin_version}}"
         state:  touch
