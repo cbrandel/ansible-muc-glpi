@@ -1,0 +1,5 @@
+---
+- name: "[GLPI] update glpi"
+  command:  php "{{glpi_home_dir}}/bin/console db:update"
+  args:
+    chdir: "{{glpi_home_dir}}"

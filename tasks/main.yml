@@ -56,3 +56,6 @@
 # Set file permissions
 - name: "[GLPI] Permissions"
   import_tasks: perms.yml
+
+- name: "[GLPI] Update GLPI"
+  import_tasks: update.yml
