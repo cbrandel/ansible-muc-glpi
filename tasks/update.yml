@@ -1,5 +1,9 @@
 ---
-- name: "[GLPI] update glpi"
-  command:  php "{{glpi_home_dir}}/bin/console db:update"
+# need to pass php ini scan dir for synology:
+# https://blog.viking-studios.net/synology-php-7-cli-fehlerfrei-nextcloud-und-php-7/
+- name: "update | update glpi"
+  command: "{{glpi_php}} {{glpi_home_dir}}/bin/console db:update"
   args:
     chdir: "{{glpi_home_dir}}"
+  environment:
+    PHP_INI_SCAN_DIR: "{{glpi_php70_ini_scan_dir}}"
