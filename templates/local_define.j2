@@ -1,0 +1,6 @@
+<?php
+// {{ ansible_managed }}
+// extra config file to move files folder out of webroot
+// variables are needed in inc/based_config.php
+define('GLPI_VAR_DIR', '{{ glpi_files_root }}/files');
+?>
