@@ -15,6 +15,8 @@ glpi_mysql_db_host: "localhost:3306"
 glpi_mysql_db_user: ""
 glpi_mysql_db_pwd: ""
 glpi_mysql_db_db: ""
+glpi_php: /bin/php
+glpi_php70_ini_scan_dir: ".:/usr/local/etc/php70/"
 
 glpi_dirs:
   - _dumps
